@@ -12,12 +12,17 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
+# do this before your build tasks
 steps:
 - task: DotNetCoreCLI@2
+  displayName: Restore
   inputs:
-    command: 'restore'
-    feedsToUse: 'select'
-    vstsFeed: 'my-vsts-feed' # A series of numbers and letters
+    command: restore
+    projects: '**/*.csproj'
+    feedsToUse: config
+    nugetConfigPath: NuGet.config    # Relative to root of the repository
+    externalFeedCredentials: <Name of the NuGet service connection>
+# ...
 
 - task: DotNetCoreCLI@2
   inputs:
